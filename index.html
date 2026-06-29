@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pengumuman Kelulusan Seleksi - SMPN 2 Cibiuk</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #e6f0ff;
+      color: #003366;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(to right, #004080, #6a0dad);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      animation: fadeInTop 1s ease-out;
+    }
+
+    header h3 {
+      margin: 0;
+      padding:0;
+      font-size: 1.5rem;
+    }
+    header h4 {
+      margin: 0;
+      padding:0;
+      font-size: 1rem;
+    }
+
+    header p {
+      margin: 0.1rem 0 0;
+      font-size: 1rem;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .form-container {
+    
+      background-color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 80%;
+      text-align: center;
+      animation: zoomIn 0.6s ease-out forwards;
+    }
+
+    .form-container input {
+      width: 80%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    #cekBtn {
+    background: linear-gradient(to right, #007bff, #6f42c1); /* Biru ke ungu */
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    #cekBtn:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+    }
+
+    .form-container button {
+      padding: 0.75rem 1.5rem;
+      background-color: #0059b3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background-color: #003d80;
+    }
+
+    .result {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: none;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+    .result.success {
+      color: #0a662e;
+      background-color: #d1f7e1;
+      border: 1px solid #0a662e;
+    }
+
+    .result.failed {
+      color: #cc0000;
+      background-color: #ffe6e6;
+      border: 1px solid #cc0000;
+    }
+
+    #info-daftar-ulang {
+      margin-top: 2rem;
+      background-color: #eef6ff;
+      border-left: 6px solid #004080;
+      padding: 1rem;
+      border-radius: 10px;
+      display: none;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+    .kontak-info {
+    text-align: center;
+    margin-top:10px;
+    font-size: 1rem;
+    color: #333;
+    line-height: 0.4;
+    }
+
+    .kontak-info a {
+    color: #0077cc;
+    text-decoration: none;
+    }
+
+    .kontak-info a:hover {
+    text-decoration: underline;
+    }
+
+
+    footer {
+      background-color: #004080;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    @keyframes fadeInTop {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+</head>
+<body>
+
+<header>
+  <h4>SISTEM PENERIMAAN SISWA BARU (SPMB)</h4>
+  <h3>SMP NEGERI 2 CIBIUK</h3>
+  <p>Tahun Pelajaran 2026/2027</p>
+</header>
+
+<main>
+    <H3>PENGUMUMAN HASIL SELEKSI SPMB</H3>
+    <div class="form-container">
+    <label for="katakucni" style="display:block; margin-bottom: 0.5rem;">Cari berdasarkan NISN atau Nama</label>
+    <input type="text" id="katakucni" placeholder="Contoh: 0210329788" />
+    <button id="cekBtn" onclick="cekKelulusan()">Cek Kelulusan</button>
+
+    <div id="hasil" class="result">
+      
+    </div>
+    <div id="info-daftar-ulang"></div>
+    
+  </div>
+  <div class="kontak-info">
+  <p>Informasi lebih lanjut bisa menghubungi:</p>
+  <p><strong>Lilis Siti Hajar, S.Pd, M.M</strong></p><p>Whatsapp: <a href="https://wa.me/6285310496180" target="_blank">0853-1049-6180</a></p>
+</div>
+
+</main>
+
+<footer>
+  © 2026 SMP Negeri 2 Cibiuk
+</footer>
+
+<script>
+  
+    function cekKelulusan() {
+  
+    const input = document.getElementById("katakucni").value.trim().toLowerCase();
+    const hasil = document.getElementById("hasil");
+    const info = document.getElementById("info-daftar-ulang");
+    const dataSiswa=[
+        {nisn:"0135396965", nama:"ADIT FERDIANSYAH", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3138021075", nama:"RAPA FIRMANSAH", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3132403659", nama:"MUHAMAD REVAN GUNAWAN", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3131919647", nama:"ALIP MUHAMAD BAEHAKI", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3147351997", nama:"NAZIRA MAULIDA", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"0135687783", nama:"BISMA ALY QURTUBI", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"0137128945", nama:"RIVANA ANGGRAENI", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3139175769", nama:"ABHINAYA AKSATA", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3137749468", nama:"SANSAN MUHAMAD SIROJUDIN", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"0134469362", nama:"ADRIAN", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3144174218", nama:"MUHAMMAD ABIDZAR", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"0146946427", nama:"PADIL", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3142443925", nama:"MUHAMAD ARKAN SETIAWAN", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3141547448", nama:"IAN SOPIAN", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"0151212510", nama:"DIAN PERMANA PUTRA", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"0138574597", nama:"ZAVIE JANETTA", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"0138712042", nama:"ABIL ABDUL JABAR", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3144677555", nama:"DINI LARASSATI", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3144344643", nama:"RIANA M RIZKI", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"},
+        {nisn:"3141076703", nama:"SAJAD MUHAMMAD FAKHRULLOH", status:"LULUS", asal_sekolah:"SDN 3 CIBIUK KIDUL"}
+
+   ];
+    const siswa = dataSiswa.find(item =>
+        item.nisn === input || item.nama.toLowerCase()===input
+     );
+   const today = new Date();
+    // Tentukan tanggal pengumuman (4 Juli 2025)
+    const pengumumanMulai = new Date("2025-07-04");
+      $sekarang=1;
+      $jadwal=1;
+    // Cek apakah hari ini sudah tanggal pengumuman atau belum
+    if($sekarang>$jadwal){
+      if (siswa) {
+      //   const siswa = dataSiswa[nik];
+        hasil.style.display = "block";
+        hasil.classList.remove("success", "failed");
+        info.style.display = "none";
+
+        if (siswa.status === "LULUS") {
+          hasil.classList.add("success");
+          hasil.innerHTML = `<strong>Selamat!</strong><br />
+                  <div style="margin: 0.3rem 0 0.2rem; font-size: 1.5rem;line-height:0.9">${siswa.nama}</div>
+                  <div style="margin-top: 0.4rem; font-size: 1rem;">
+                      <strong>${siswa.asal_sekolah}</strong>
+                  </div>
+                  <div style="margin: 0; font-size: 1rem;">Kamu diterima menjadi Murid Baru di SMP Negeri 2 Cibiuk.</div>
+                  
+                  `;
+          semburkanKonfeti();
+
+          info.style.display = "block";
+          info.innerHTML = `
+            <p><strong>Silahkan datang ke sekolah untuk mendapatkan format Surat Pernyataan Tanggung Jawab Mutlak</strong></p>
+            <p><strong>Daftar ulang mulai tanggal <u>7-8 Juli 2025</u>.</strong></p>
+            <p><strong>Persyaratan yang harus dipersiapkan:</strong></p>
+            <ol>
+              <li>Surat Keterangan Berkelakuan Baik</li>
+              <li>Foto Copy Kelulusan</li>
+              <li>Foto Copy Akta Kelahiran / Komsen</li>
+              <li>Foto Copy Ijazah (jika sudah ada)</li>
+              <li>Foto Copy Kartu Keluarga</li>
+              <li>Foto Copy KTP Orang Tua</li>
+              <li>Foto Copy Kartu NISN</li>
+              <li>Foto Copy Kartu KPS/KKS/PKH/KIP jika penerima bantuan</li>
+            </ol>
+            
+          `;
+        } else {
+          hasil.classList.add("failed");
+          hasil.innerHTML = `❌ ${siswa.nama} dinyatakan <strong>TIDAK LULUS</strong>. </br>Tetap semangat dan terus berusaha! 💪`;
+        }
+      } else {
+        hasil.style.display = "block";
+        hasil.className = "result failed";
+        hasil.innerHTML = `❌ Data tidak ditemukan. Periksa kembali NISN atau Nama yang dimasukkan.`;
+        
+        info.style.display = "none";
+
+      }
+    }else{
+       hasil.style.display = "block";
+       hasil.className = "result failed";
+       hasil.innerHTML = `❌ Belum waktunya pengumuman. <br> Silahakan kembali lagi pada Jum'at, 3 Juji 2026.`;
+        
+       info.style.display = "none";
+    }
+    
+    }
+</script>
+
+</body>
+</html>
+<script>
+  // Fungsi menyemburkan konfeti ke seluruh halaman
+  function semburkanKonfeti() {
+    var duration = 3 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 45, spread: 360, ticks: 90, zIndex: 999,  scalar: 1.6  };
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function () {
+      var timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      var particleCount = 100 * (timeLeft / duration);
+      // menyembur dari kiri dan kanan
+      confetti(Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+      }));
+      confetti(Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+      }));
+    }, 250);
+  }
+
+  
+</script>
