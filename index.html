@@ -191,7 +191,7 @@
 </main>
 
 <footer>
-  © 2026 SMP Negeri 2 Cibiuk
+  Made with ❤️ by Agus Sopian. © 2026 SMPNegeri 2 Cibiuk 
 </footer>
 
 <script>
@@ -309,10 +309,9 @@
    const today = new Date();
     // Tentukan tanggal pengumuman (4 Juli 2025)
     const pengumumanMulai = new Date("2025-07-04");
-      $sekarang=1;
-      $jadwal=1;
-    // Cek apakah hari ini sudah tanggal pengumuman atau belum
-    if($sekarang>$jadwal){
+    const targetDate = new Date("2026-07-03T07:00:00+07:00");
+    const currentDate = new Date();
+    if (currentDate >= targetDate) {
       if (siswa) {
       //   const siswa = dataSiswa[nik];
         hasil.style.display = "block";
